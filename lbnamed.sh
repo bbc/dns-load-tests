@@ -5,7 +5,7 @@ rm -f /tmp/lbnamed.log.*
 
 count=2
 duration=2   #secs
-vip=132.185.154.12
+vip=212.58.234.248
 
 while [ $count -gt 0 ]
 do 
