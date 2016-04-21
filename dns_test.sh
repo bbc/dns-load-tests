@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Example
-# sh dns_test.sh "www.bbc.net.uk A" 132.185.154.12 2 2 bind
+# sh dns_test.sh "www.bbc.net.uk A" 132.185.154.12 2 2 20 bind
 
 rm -f /tmp/*log.*
 
@@ -9,14 +9,15 @@ query=$1
 ip=$2
 count=$3
 duration=$4
-log=$5
+queryno=$5
+log=$6
 
 echo $query > "$HOME/query"
 
 while [ $count -gt 0 ]
 do 
   count=$((count - 1))
-  dnsperf -s $ip -l $duration -d "$HOME/query" > /tmp/$log.log.$count &
+  dnsperf -s $ip -l $duration -q $queryno -d "$HOME/query" > /tmp/$log.log.$count &
 done
 wait
 grep qps /tmp/$log.log.* | 
