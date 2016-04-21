@@ -39,4 +39,4 @@ av=$(grep -h 'Average Latency' $tmplog | awk '{print $4}')
 echo qps: $qps
 echo min: $min
 echo max: $max
-echo av :  $av
+echo av : $av
