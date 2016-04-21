@@ -1,24 +1,31 @@
 #!/bin/bash
 
 # Example
-# sh dns_test.sh "www.bbc.net.uk A" 132.185.154.12 2 2 20 bind
+# sh dns_test.sh bind "www.bbc.co.uk A" 2 2 
 
 rm -f /tmp/*log.*
 
-query=$1
-ip=$2
-count=$3
-duration=$4
-queryno=$5
-log=$6
+if [ "$1" = "bind" ]
+then
+  ip=132.185.154.12
+elif [ "$1" = "lbnamed" ]
+then
+  ip=212.58.234.248
+else
+  echo incorrect dns server
+fi
+
+query="$2"
+count="$3"
+duration="$4"
 
 echo $query > "$HOME/query"
 
 while [ $count -gt 0 ]
 do 
   count=$((count - 1))
-  dnsperf -s $ip -l $duration -q $queryno -d "$HOME/query" > /tmp/$log.log.$count &
+  dnsperf -s $ip -l $duration -q 20 -d "$HOME/query" > /tmp/$1.log.$count &
 done
 wait
-grep qps /tmp/$log.log.* | 
+grep "Queries per second" /tmp/$1.log.* | 
   perl -p -e 's/[\r\n]+$//; s/^.* (\d+)\..*$/$1/; push(@val, $_); $sum += $_; $_=""; END { print "$sum = " . join("+",@val) . "\n";}'
