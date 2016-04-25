@@ -21,8 +21,8 @@ query="$2"
 count="$3"
 duration="$4"
 
+echo start: `date`
 echo $query > "$HOME/query"
-
 while [ $count -gt 0 ]
 do 
   count=$((count - 1))
@@ -33,10 +33,11 @@ qps=$(grep "Queries per second" $tmplog |
 perl -p -e 's/[\r\n]+$//; s/^.* (\d+)\..*$/$1/; push(@val, $_); $sum += $_; $_=""; END { print "$sum = " . join("+",@val) . "\n";}')
 
 min=$(grep -h 'Average Latency' $tmplog | sed 's/,//g'| awk '{print $6}')
-max=$(grep -h 'Average Latency' $tmplog | sed -e 's/)//g' | awk '{print $8}')
+max=$(grep -h 'Average Latency' $tmplog | sed 's/)//g' | awk '{print $8}')
 av=$(grep -h 'Average Latency' $tmplog | awk '{print $4}')
 
 echo qps: $qps
-echo min: $min
-echo max: $max
-echo av : $av
+echo min: ; echo $min
+echo max: ; echo $max
+echo av: ; echo $av
+echo finish: `date`
