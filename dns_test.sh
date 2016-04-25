@@ -32,12 +32,7 @@ wait
 qps=$(grep "Queries per second" $tmplog | 
 perl -p -e 's/[\r\n]+$//; s/^.* (\d+)\..*$/$1/; push(@val, $_); $sum += $_; $_=""; END { print "$sum = " . join("+",@val) . "\n";}')
 
-min=$(grep -h 'Average Latency' $tmplog | sed 's/,//g'| awk '{print $6}')
-max=$(grep -h 'Average Latency' $tmplog | sed 's/)//g' | awk '{print $8}')
-av=$(grep -h 'Average Latency' $tmplog | awk '{print $4}')
+echo "qps $qps"
+grep -h 'Average Latency' /tmp/*.log.* | awk '{print "av " $4, $5 " "$6, $7 " " $8 }' | sed 's/,//g' | sed 's/)//g' | sed 's/(//g'
 
-echo qps: $qps
-echo min: ; echo $min
-echo max: ; echo $max
-echo av: ; echo $av
 echo finish: `date`
