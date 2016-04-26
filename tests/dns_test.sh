@@ -5,7 +5,7 @@
 # sh dns_test.sh lbnamed "www.bbc.net.uk A" 2 2
 
 tmplog=/tmp/*.log.*
-rm -f tmplog
+rm -f $tmplog
 
 if [ "$1" = "bind" ]
 then
