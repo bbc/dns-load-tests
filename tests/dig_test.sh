@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm -f dig.log
-
 start=`date +%s`
 secs=1200
 
